@@ -3,31 +3,27 @@ import { useEffect, useState } from "react";
 import Book from "./Book";
 
 const SearchPage = ({ showSearchPage, setShowSearchpage }) => {
-  const [searchVal, setSearchVal] = useState("react");
-  const [abc, setAbc] = useState("");
+  const [searchVal, setSearchVal] = useState("");
   const [searchResult, setSearchResult] = useState([]);
-  // console.log(stuff);
-  console.log("entering SearchPage with result", searchResult);
-
-  // let mydata = [];
-  // if (searchVal !== "") {
-  //   mydata = search(searchVal, 20).value;
-  //   console.log(mydata);
-  // }
+  //console.log("entering SearchPage with result", searchResult);
 
   useEffect(() => {
+    if (searchVal === "") return;
     let mounted = true;
     // We wait for promise to return and then update state
     search(searchVal).then((data) => {
-      if (mounted) {
-        setSearchResult(data);
+      if (mounted && data) {
+        if (data.error === "empty query") {
+          setSearchResult([]);
+        } else {
+          setSearchResult(data);
+        }
       }
     });
-    console.log("done", searchResult.value);
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [searchVal]);
 
   return (
     <div className="search-books">
@@ -53,9 +49,8 @@ const SearchPage = ({ showSearchPage, setShowSearchpage }) => {
 
           <div className="bookshelf-books">
             <ol className="books-grid">
-              {searchResult.map((book, i) => (
-                <Book key={i} book={book} />
-              ))}
+              {searchResult &&
+                searchResult.map((book, i) => <Book key={i} book={book} />)}
             </ol>
           </div>
         </div>
