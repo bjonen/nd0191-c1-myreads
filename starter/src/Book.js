@@ -11,20 +11,31 @@ const Book = ({ book }) => {
               backgroundImage: "url(" + book.imageLinks.smallThumbnail + ")",
             }}
           ></div>
-          <div className="book-shelf-changer">
-            <select>
-              <option value="none" disabled>
-                Move to...
-              </option>
-              <option value="currentlyReading">Currently Reading</option>
-              <option value="wantToRead">Want to Read</option>
-              <option value="read">Read</option>
-              <option value="none">None</option>
-            </select>
-          </div>
+          {Object.hasOwn(book, "shelf") ? (
+            <div className="book-shelf-changer">
+              <select value={book.shelf}>
+                <option value="none" disabled>
+                  Move to...
+                </option>
+                <option value="currentlyReading">Currently Reading</option>
+                <option value="wantToRead">Want to Read</option>
+                <option value="read">Read</option>
+                <option value="none">None</option>
+              </select>
+            </div>
+          ) : (
+            <div className="book-shelf-changer">
+              <select>
+                <option value="none">Add to...</option>
+                <option value="currentlyReading">Currently Reading</option>
+                <option value="wantToRead">Want to Read</option>
+                <option value="read">Read</option>
+              </select>
+            </div>
+          )}
         </div>
-        <div className="book-title">Ender's Game</div>
-        <div className="book-authors">Orson Scott Card</div>
+        <div className="book-title">{book.title}</div>
+        <div className="book-authors">{book.authors}</div>
       </div>
     </li>
   );
