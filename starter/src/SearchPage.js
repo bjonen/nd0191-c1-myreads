@@ -1,4 +1,4 @@
-import { getAll, get, search } from "./BooksAPI";
+import { getAll, search, searchGet } from "./BooksAPI";
 import { useEffect, useState } from "react";
 import Book from "./Book";
 
@@ -6,12 +6,13 @@ const SearchPage = ({ showSearchPage, setShowSearchpage }) => {
   const [searchVal, setSearchVal] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   //console.log("entering SearchPage with result", searchResult);
+  //console.log(getAll());
 
   useEffect(() => {
     if (searchVal === "") return;
     let mounted = true;
     // We wait for promise to return and then update state
-    search(searchVal).then((data) => {
+    searchGet(searchVal).then((data) => {
       if (mounted && data) {
         if (data.error === "empty query") {
           setSearchResult([]);

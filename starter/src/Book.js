@@ -1,4 +1,19 @@
+import { useEffect, useState } from "react";
+import { update } from "./BooksAPI";
+
 const Book = ({ book }) => {
+  //console.log("Adding book", book, book.shelf);
+  const [optVal, setOptVal] = useState("none");
+
+  const handleChange = (e) => {
+    let val = e.target.value;
+    if (val !== "none") {
+      //console.log("updating book to ", val);
+      update(book, val);
+      setOptVal(val);
+    }
+  };
+
   return (
     <li>
       <div className="book">
@@ -8,12 +23,15 @@ const Book = ({ book }) => {
             style={{
               width: 128,
               height: 188,
-              backgroundImage: "url(" + book.imageLinks.smallThumbnail + ")",
+              //backgroundImage: "url(" + book.imageLinks.smallThumbnail + ")",
+              backgroundImage:
+                Object.hasOwn(book, "imageLinks") &&
+                `url(${book.imageLinks.smallThumbnail})`,
             }}
           ></div>
-          {Object.hasOwn(book, "shelf") ? (
+          {Object.hasOwn(book, "shelf") && book.shelf != "none" ? (
             <div className="book-shelf-changer">
-              <select value={book.shelf}>
+              <select>
                 <option value="none" disabled>
                   Move to...
                 </option>
@@ -25,8 +43,10 @@ const Book = ({ book }) => {
             </div>
           ) : (
             <div className="book-shelf-changer">
-              <select>
-                <option value="none">Add to...</option>
+              <select value={optVal} onChange={handleChange}>
+                <option value="none" disabled>
+                  Add to...
+                </option>
                 <option value="currentlyReading">Currently Reading</option>
                 <option value="wantToRead">Want to Read</option>
                 <option value="read">Read</option>
