@@ -1,16 +1,17 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { update } from "./BooksAPI";
 
-const Book = ({ book }) => {
-  //console.log("Adding book", book, book.shelf);
-  const [optVal, setOptVal] = useState("none");
+const Book = ({ book, modifyShelf }) => {
+  console.log("Adding book", book, book.shelf);
+  const [optVal, setOptVal] = useState(book.shelf);
 
   const handleChange = (e) => {
     let val = e.target.value;
     if (val !== "none") {
       //console.log("updating book to ", val);
-      update(book, val);
+      //update(book, val);
       setOptVal(val);
+      modifyShelf(book.id, val);
     }
   };
 
@@ -29,9 +30,9 @@ const Book = ({ book }) => {
                 `url(${book.imageLinks.smallThumbnail})`,
             }}
           ></div>
-          {Object.hasOwn(book, "shelf") && book.shelf != "none" ? (
+          {optVal != "none" ? (
             <div className="book-shelf-changer">
-              <select>
+              <select value={optVal} onChange={handleChange}>
                 <option value="none" disabled>
                   Move to...
                 </option>

@@ -10,16 +10,20 @@ const headers = {
 };
 
 export const get = (bookId) =>
+  // Get information for book in universe
   fetch(`${api}/books/${bookId}`, { headers })
     .then((res) => res.json())
     .then((data) => data.book);
 
 export const getAll = () =>
+  // Gets all books placed on shelves
   fetch(`${api}/books`, { headers })
     .then((res) => res.json())
     .then((data) => data.books);
 
 export const update = (book, shelf) =>
+  // Move a book from the universe on/off shelves or change shelf
+  // for existing books
   fetch(`${api}/books/${book.id}`, {
     method: "PUT",
     headers: {
@@ -30,6 +34,7 @@ export const update = (book, shelf) =>
   }).then((res) => res.json());
 
 export const search = (query, maxResults) =>
+  // Searches the full book universe
   fetch(`${api}/search`, {
     method: "POST",
     headers: {
@@ -50,6 +55,8 @@ export const search = (query, maxResults) =>
 // };
 
 export async function searchGet(query) {
+  // Data directly from search comes back w/o the shelf information
+  // We first perform the query, then get the book information separately
   const books = await search(query);
   return Promise.all(
     !Object.hasOwn(books, "error") ? books.map((book) => get(book.id)) : []

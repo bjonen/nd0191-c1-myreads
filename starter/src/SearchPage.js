@@ -1,8 +1,8 @@
-import { getAll, search, searchGet } from "./BooksAPI";
+import { searchGet } from "./BooksAPI";
 import { useEffect, useState } from "react";
 import Book from "./Book";
 
-const SearchPage = ({ showSearchPage, setShowSearchpage }) => {
+const SearchPage = ({ showSearchPage, setShowSearchpage, modifyShelf }) => {
   const [searchVal, setSearchVal] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   //console.log("entering SearchPage with result", searchResult);
@@ -51,7 +51,9 @@ const SearchPage = ({ showSearchPage, setShowSearchpage }) => {
           <div className="bookshelf-books">
             <ol className="books-grid">
               {searchResult &&
-                searchResult.map((book, i) => <Book key={i} book={book} />)}
+                searchResult.map((book, i) => (
+                  <Book key={i} book={book} modifyShelf={modifyShelf} />
+                ))}
             </ol>
           </div>
         </div>
