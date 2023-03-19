@@ -19,14 +19,13 @@ function App() {
 
   async function setCurrentShelf() {
     return getAll().then((books) => {
-      console.log("Setting shelf books", books);
       setShelfBooks(books);
     });
   }
 
   const modifyShelf = (bookid, shelf) => {
-    console.log("modifyShelf", bookid, shelf);
     // Important then(setCurrentShelf) instead of then(setCurrentShelf())
+
     update({ id: bookid }, shelf).then(setCurrentShelf);
   };
 
@@ -40,7 +39,6 @@ function App() {
         }
       />
       <Route
-        exact
         path="/search"
         element={<SearchPage modifyShelf={modifyShelf} />}
       />

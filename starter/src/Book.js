@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 const Book = ({ book, modifyShelf }) => {
-  //console.log("Adding book", book, book.shelf);
   const [optVal, setOptVal] = useState(book.shelf);
 
   const handleChange = (e) => {

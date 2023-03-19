@@ -1,18 +1,32 @@
 import { searchGet } from "./BooksAPI";
 import { useEffect, useState } from "react";
 import Book from "./Book";
-import { useNavigate } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 const SearchPage = ({ modifyShelf }) => {
-  const [searchVal, setSearchVal] = useState("");
+  let [searchParams, setSearchParams] = useSearchParams("");
   const [searchResult, setSearchResult] = useState([]);
-  let navigate = useNavigate();
+
+  const getQuery = () => {
+    // Extract query string from url
+    var q = "";
+    Array.from(searchParams.entries()).forEach((x) => {
+      if (x[0] == "query") {
+        q = x[1];
+      }
+    });
+    return q;
+  };
 
   useEffect(() => {
-    if (searchVal === "") return;
+    const q = getQuery();
+    if (q === "") {
+      setSearchResult([]);
+      return;
+    }
     let mounted = true;
     // We wait for promise to return and then update state
-    searchGet(searchVal).then((data) => {
+    searchGet(q).then((data) => {
       if (mounted && data) {
         if (data.error === "empty query") {
           setSearchResult([]);
@@ -24,19 +38,23 @@ const SearchPage = ({ modifyShelf }) => {
     return () => {
       mounted = false;
     };
-  }, [searchVal]);
+  }, [searchParams]);
 
   return (
     <div className="search-books">
       <div className="search-books-bar">
-        <a className="close-search" onClick={() => navigate("/")}>
+        <Link to="/" className="close-search">
           Close
-        </a>
+        </Link>
         <div className="search-books-input-wrapper">
           <input
             type="text"
-            value={searchVal}
-            onChange={(e) => setSearchVal(e.target.value)}
+            value={getQuery()}
+            onChange={(e) =>
+              setSearchParams(
+                e.target.value !== "" ? { query: e.target.value } : {}
+              )
+            }
             placeholder="Search by title, author, or ISBN"
           />
         </div>
