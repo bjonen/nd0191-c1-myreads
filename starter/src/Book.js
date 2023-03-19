@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 
 const Book = ({ book, modifyShelf }) => {
   const [optVal, setOptVal] = useState(book.shelf);
@@ -54,6 +55,11 @@ const Book = ({ book, modifyShelf }) => {
       </div>
     </li>
   );
+};
+
+Book.propTypes = {
+  book: PropTypes.object.isRequired,
+  modifyShelf: PropTypes.func.isRequired,
 };
 
 export default Book;

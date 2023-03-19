@@ -2,6 +2,7 @@ import { searchGet } from "./BooksAPI";
 import { useEffect, useState } from "react";
 import Book from "./Book";
 import { Link, useSearchParams } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const SearchPage = ({ modifyShelf }) => {
   let [searchParams, setSearchParams] = useSearchParams("");
@@ -75,6 +76,10 @@ const SearchPage = ({ modifyShelf }) => {
       </div>
     </div>
   );
+};
+
+SearchPage.propTypes = {
+  modifyShelf: PropTypes.func.isRequired,
 };
 
 export default SearchPage;
