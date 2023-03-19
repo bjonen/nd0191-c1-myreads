@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { update } from "./BooksAPI";
 
 const Book = ({ book, modifyShelf }) => {
   //console.log("Adding book", book, book.shelf);

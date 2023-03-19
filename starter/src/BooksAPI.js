@@ -48,14 +48,6 @@ export const search = (query, maxResults) =>
     .then((res) => res.json())
     .then((data) => data.books);
 
-// export const searchGet = (query) => {
-//   return search(query).then((books) => {
-//     return Promise.all(
-//       !Object.hasOwn(books, "error") ? books.map((book) => get(book.id)) : []
-//     );
-//   });
-// };
-
 export async function searchGet(query) {
   // Data directly from search comes back w/o the shelf information
   // We first perform the query, then get the book information separately

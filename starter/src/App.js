@@ -8,8 +8,8 @@ function App() {
   const [showSearchPage, setShowSearchpage] = useState(false);
   const [shelfBooks, setShelfBooks] = useState([]);
 
+  // Load books at mount
   useEffect(() => {
-    // Run only once at mount
     let mounted = true;
     setCurrentShelf(mounted);
     return () => {
@@ -18,7 +18,7 @@ function App() {
   }, []);
 
   async function setCurrentShelf() {
-    await getAll().then((books) => {
+    return getAll().then((books) => {
       console.log("Setting shelf books", books);
       setShelfBooks(books);
     });
@@ -26,7 +26,8 @@ function App() {
 
   const modifyShelf = (bookid, shelf) => {
     console.log("modifyShelf", bookid, shelf);
-    update({ id: bookid }, shelf).then((p) => setCurrentShelf());
+    // Important then(setCurrentShelf) instead of then(setCurrentShelf())
+    update({ id: bookid }, shelf).then(setCurrentShelf);
   };
 
   return (
@@ -38,8 +39,6 @@ function App() {
           modifyShelf={modifyShelf}
         />
       ) : (
-        //pass shelfname and only books on that shelf
-
         <div className="list-books">
           {/* <div> <BookShelf shelfName="Want to Read"  /> </div> */}
           <div className="list-books-title">
