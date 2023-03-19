@@ -2,10 +2,10 @@ import "./App.css";
 import { useState, useEffect } from "react";
 import SearchPage from "./SearchPage";
 import { getAll, update } from "./BooksAPI";
-import BookShelf from "./BookShelf";
+import { Route, Routes } from "react-router-dom";
+import MainShelf from "./MainShelf";
 
 function App() {
-  const [showSearchPage, setShowSearchpage] = useState(false);
   const [shelfBooks, setShelfBooks] = useState([]);
 
   // Load books at mount
@@ -31,47 +31,20 @@ function App() {
   };
 
   return (
-    <div className="app">
-      {showSearchPage ? (
-        <SearchPage
-          showSearchPage={showSearchPage}
-          setShowSearchpage={setShowSearchpage}
-          modifyShelf={modifyShelf}
-        />
-      ) : (
-        <div className="list-books">
-          {/* <div> <BookShelf shelfName="Want to Read"  /> </div> */}
-          <div className="list-books-title">
-            <h1>MyReads</h1>
-          </div>
-          <div className="list-books-content">
-            <div>
-              <BookShelf
-                shelfName="Want to Read"
-                books={shelfBooks.filter((book) => book.shelf === "wantToRead")}
-                modifyShelf={modifyShelf}
-              />
-              <BookShelf
-                shelfName="Currently Reading"
-                books={shelfBooks.filter(
-                  (book) => book.shelf === "currentlyReading"
-                )}
-                modifyShelf={modifyShelf}
-              />
-              <BookShelf
-                shelfName="Read"
-                books={shelfBooks.filter((book) => book.shelf === "read")}
-                modifyShelf={modifyShelf}
-              />
-            </div>
-          </div>
-          <div className="open-search">
-            <a onClick={() => setShowSearchpage(!showSearchPage)}>Add a book</a>
-          </div>
-        </div>
-      )}
-    </div>
+    <Routes>
+      <Route
+        exact
+        path=""
+        element={
+          <MainShelf shelfBooks={shelfBooks} modifyShelf={modifyShelf} />
+        }
+      />
+      <Route
+        exact
+        path="/search"
+        element={<SearchPage modifyShelf={modifyShelf} />}
+      />
+    </Routes>
   );
 }
-
 export default App;

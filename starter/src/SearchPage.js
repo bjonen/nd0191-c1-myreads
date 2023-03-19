@@ -1,12 +1,12 @@
 import { searchGet } from "./BooksAPI";
 import { useEffect, useState } from "react";
 import Book from "./Book";
+import { useNavigate } from "react-router-dom";
 
-const SearchPage = ({ showSearchPage, setShowSearchpage, modifyShelf }) => {
+const SearchPage = ({ modifyShelf }) => {
   const [searchVal, setSearchVal] = useState("");
   const [searchResult, setSearchResult] = useState([]);
-  //console.log("entering SearchPage with result", searchResult);
-  //console.log(getAll());
+  let navigate = useNavigate();
 
   useEffect(() => {
     if (searchVal === "") return;
@@ -29,10 +29,7 @@ const SearchPage = ({ showSearchPage, setShowSearchpage, modifyShelf }) => {
   return (
     <div className="search-books">
       <div className="search-books-bar">
-        <a
-          className="close-search"
-          onClick={() => setShowSearchpage(!showSearchPage)}
-        >
+        <a className="close-search" onClick={() => navigate("/")}>
           Close
         </a>
         <div className="search-books-input-wrapper">
