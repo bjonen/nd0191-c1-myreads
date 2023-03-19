@@ -8,7 +8,7 @@ import MainShelf from "./MainShelf";
 function App() {
   const [shelfBooks, setShelfBooks] = useState([]);
 
-  // Load books at mount
+  // Load books on shelf once at mount
   useEffect(() => {
     let mounted = true;
     setCurrentShelf(mounted);
@@ -24,8 +24,9 @@ function App() {
   }
 
   const modifyShelf = (bookid, shelf) => {
+    // Update API. Once complete pull the current information
+    // from API and set state to trigger re-render.
     // Important then(setCurrentShelf) instead of then(setCurrentShelf())
-
     update({ id: bookid }, shelf).then(setCurrentShelf);
   };
 

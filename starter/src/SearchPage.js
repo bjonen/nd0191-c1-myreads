@@ -5,6 +5,8 @@ import { Link, useSearchParams } from "react-router-dom";
 import PropTypes from "prop-types";
 
 const SearchPage = ({ modifyShelf }) => {
+  // Update search params to store latest query to make sure that
+  // state is retained if user triggers page reload
   let [searchParams, setSearchParams] = useSearchParams("");
   const [searchResult, setSearchResult] = useState([]);
 
@@ -19,6 +21,7 @@ const SearchPage = ({ modifyShelf }) => {
     return q;
   };
 
+  // Update search result whenever searh query changes
   useEffect(() => {
     const q = getQuery();
     if (q === "") {
