@@ -2,17 +2,13 @@ import { useState } from "react";
 import { update } from "./BooksAPI";
 
 const Book = ({ book, modifyShelf }) => {
-  console.log("Adding book", book, book.shelf);
+  //console.log("Adding book", book, book.shelf);
   const [optVal, setOptVal] = useState(book.shelf);
 
   const handleChange = (e) => {
     let val = e.target.value;
-    if (val !== "none") {
-      //console.log("updating book to ", val);
-      //update(book, val);
-      setOptVal(val);
-      modifyShelf(book.id, val);
-    }
+    setOptVal(val);
+    modifyShelf(book.id, val);
   };
 
   return (

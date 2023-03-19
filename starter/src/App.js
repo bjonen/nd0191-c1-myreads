@@ -6,40 +6,28 @@ import BookShelf from "./BookShelf";
 
 function App() {
   const [showSearchPage, setShowSearchpage] = useState(false);
-  const [shelfs, setShelfs] = useState([]);
   const [shelfBooks, setShelfBooks] = useState([]);
-  var mounted = false;
 
   useEffect(() => {
     // Run only once at mount
-    mounted = true;
+    let mounted = true;
     setCurrentShelf(mounted);
     return () => {
       mounted = false;
     };
   }, []);
 
-  async function setCurrentShelf(mounted) {
-    return getAll().then((books) => {
-      mounted && setShelfBooks(books);
-      // setShelfs(
-      //   books.map((book) => {
-      //     return { id: book.id, shelf: book.shelf };
-      //   })
-      // );
+  async function setCurrentShelf() {
+    await getAll().then((books) => {
+      console.log("Setting shelf books", books);
+      setShelfBooks(books);
     });
   }
 
   const modifyShelf = (bookid, shelf) => {
     console.log("modifyShelf", bookid, shelf);
-    //const newShelfs = shelfs.filter((book) => book.id !== bookid);
-    update({ id: bookid }, shelf).then(setCurrentShelf(mounted));
-    // if (shelf != "none")
-    //   setShelfs([...newShelfs, { id: bookid, shelf: shelf }]);
-    // console.log("shelfs", shelfs);
+    update({ id: bookid }, shelf).then((p) => setCurrentShelf());
   };
-
-  console.log("shelfs are", shelfs);
 
   return (
     <div className="app">

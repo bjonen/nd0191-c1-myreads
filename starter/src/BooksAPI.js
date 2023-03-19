@@ -24,6 +24,8 @@ export const getAll = () =>
 export const update = (book, shelf) =>
   // Move a book from the universe on/off shelves or change shelf
   // for existing books
+  // Returns Object of arrays with keys currentlyreading, wanttoread,\
+  // read
   fetch(`${api}/books/${book.id}`, {
     method: "PUT",
     headers: {
